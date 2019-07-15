@@ -1,4 +1,4 @@
-# in-and-out
+# In & Out
 
 ## Project setup
 ```
