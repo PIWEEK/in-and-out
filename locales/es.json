@@ -1,3 +1,5 @@
 {
-  "message": "Buenos días i18n !!"
+  "login": {
+    "Log-in": "Entrar"
+  }
 }

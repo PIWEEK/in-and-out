@@ -1,3 +1,5 @@
 {
-  "message": "hello i18n !!"
+  "login": {
+    "Log-in": "Log in"
+  }
 }
