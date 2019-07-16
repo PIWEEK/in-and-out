@@ -1,7 +1,16 @@
 <template>
-  <div id="app">
+  <Layout>
     <router-view />
-  </div>
+  </Layout>
 </template>
+
+<script>
+import coreComponents from './core'
+
+export default {
+  name: 'App',
+  components: { ...coreComponents },
+}
+</script>
 
 <style src="./styles/main.css"></style>
