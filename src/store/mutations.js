@@ -6,4 +6,8 @@ export default {
   setTodayState (state, todayState) {
     state.today = todayState
   },
+  setTodayStart (state, date) {
+    state.today.start = date.getTime()
+    state.today.status = 'working'
+  },
 }
