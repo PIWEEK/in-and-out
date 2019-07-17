@@ -1,4 +1,5 @@
 import { loadLanguageAsync } from '@/setup/i18n'
+import { createRecord } from '@/api/record'
 
 export default {
   async changeLanguage ({ commit }, lang) {
@@ -12,7 +13,8 @@ export default {
   },
 
   async startTodayRegister ({ commit }, date) {
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await createRecord(date)
+    // await new Promise(resolve => setTimeout(resolve, 2000))
     commit('setTodayStart', date)
   },
 }

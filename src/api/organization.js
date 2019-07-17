@@ -1,18 +1,20 @@
 import auth from 'solid-auth-client'
-import slugify from 'slugify'
 import rdf from 'rdflib'
 
 const SCHEMA = rdf.Namespace('http://schema.org/')
-const ORGS_URI = 'https://pod2.projects.kaleidos.net/public/organizations/'
 
-function buildOrgUri (name) {
-  const slug = slugify(name).toLowerCase()
-  return `${ORGS_URI}${slug}.ttl`
+const ORGS_URI = 'https://pod2.projects.kaleidos.net/public/organizations/'
+const ORG_NAME = 'Kaleidos'
+const ORG_URI = `${ORGS_URI}kaleidos.ttl`
+
+export async function getCurrentOrgUri () {
+  // TODO: add to the organizations pod some data to identify
+  // the organization that the current user belongs
+  return ORG_URI
 }
 
-export async function getOrganization (name) {
-  const orgUri = buildOrgUri(name)
-  const orgNode = new rdf.NamedNode(orgUri)
+export async function getCurrentOrg () {
+  const orgNode = rdf.sym(await getCurrentOrgUri())
 
   try {
     const org = rdf.graph()
@@ -20,6 +22,7 @@ export async function getOrganization (name) {
     await fetcher.load(orgNode.uri)
 
     return {
+      uri: orgNode.uri,
       name: org.any(orgNode, SCHEMA('name')).value,
     }
   } catch (ex) {
@@ -31,15 +34,14 @@ export async function getOrganization (name) {
   }
 }
 
-export async function createOrganization (name) {
-  const orgUri = buildOrgUri(name)
+export async function createOrganization () {
   const updateQuery = `
     INSERT DATA {
-       <${orgUri}> a <${SCHEMA('Organization').uri}>;
-                     <${SCHEMA('name').uri}> "${name}".
+       <${ORG_URI}> a <${SCHEMA('Organization').uri}>;
+                    <${SCHEMA('name').uri}> "${ORG_NAME}".
     }
   `
-  await auth.fetch(orgUri, {
+  await auth.fetch(ORG_URI, {
     method: 'POST',
     body: updateQuery,
     headers: {
