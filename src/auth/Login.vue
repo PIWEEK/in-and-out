@@ -4,12 +4,12 @@
       <h1 class="text-primary font-title text-5xl">
         In & Out
       </h1>
-      <button
-        class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded"
+      <BaseButton
+        kind="primary"
         @click="login()"
       >
         {{ $t('login.log-in') }}
-      </button>
+      </BaseButton>
     </div>
   </div>
 </template>
