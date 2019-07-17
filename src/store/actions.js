@@ -5,4 +5,8 @@ export default {
     await loadLanguageAsync(lang)
     commit('setLanguage', lang)
   },
+
+  async fetchTodayStatus ({ commit }) {
+    commit('setTodayState', { status: 'ready' })
+  },
 }

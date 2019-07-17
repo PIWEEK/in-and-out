@@ -8,6 +8,9 @@ export const initialState = {
     isLogged: false,
     data: undefined,
   },
+  today: {
+    status: undefined,
+  },
 }
 
 export default initialState
