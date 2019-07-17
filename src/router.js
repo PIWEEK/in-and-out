@@ -19,8 +19,7 @@ export default new Router({
     },
     {
       path: '/register',
-      name: '',
-      alias: '/',
+      name: 'register',
       component () { return import(/* webpackChunkName: "register" */ '@/register') },
     },
     {
