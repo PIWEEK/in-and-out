@@ -1,5 +1,5 @@
 <template functional>
-  <div class="h-full flex flex-col bg-tertiary-darkest font-serif">
+  <div class="h-full flex flex-col font-serif text-white">
     <header>
       <slot name="header" />
     </header>

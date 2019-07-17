@@ -19,9 +19,18 @@ export default new Router({
     },
     {
       path: '/register',
-      name: '',
-      alias: '/',
+      name: 'register',
       component () { return import(/* webpackChunkName: "register" */ '@/register') },
+      children: [
+        {
+          path: ':date',
+          name: 'register-detail',
+          props: true,
+          component () {
+            return import(/* webpackChunkName: "register" */ '@/register/RegisterDetail')
+          },
+        },
+      ],
     },
     {
       path: '/today',

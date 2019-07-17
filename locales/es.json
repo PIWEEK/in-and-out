@@ -1,5 +1,10 @@
 {
   "login": {
     "log-in": "Entrar"
+  },
+  "today": {
+    "ready": {
+      "manual-registration": "Registro manual"
+    }
   }
 }
