@@ -1,5 +1,7 @@
 <template>
-  <div>I'm ready to work</div>
+  <div class="h-full">
+    <FaIcon :icon="['fas', 'play-circle']" />
+  </div>
 </template>
 
 <script>

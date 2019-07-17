@@ -7,6 +7,7 @@ export default {
   },
 
   async fetchTodayStatus ({ commit }) {
+    // await new Promise(resolve => setTimeout(resolve, 2000))
     commit('setTodayState', { status: 'ready' })
   },
 }
