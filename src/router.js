@@ -9,6 +9,10 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      redirect: { name: 'today' },
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login,
@@ -18,6 +22,11 @@ export default new Router({
       name: '',
       alias: '/',
       component () { return import(/* webpackChunkName: "register" */ '@/register') },
+    },
+    {
+      path: '/today',
+      name: 'today',
+      component () { return import(/* webpackChunkName: "today" */ '@/today') },
     },
   ],
 })
