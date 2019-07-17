@@ -15,17 +15,22 @@
 </template>
 
 <script>
-import auth from 'solid-auth-client'
+import { login, currentUserWebId, currentUserVCard } from '@/api/login'
 
 export default {
   name: 'Login',
   methods: {
     async login () {
-      let session = await auth.currentSession()
-      if (!session) {
-        session = await auth.popupLogin({ popupUri: '/login-popup.html' })
+      let userWebId = await currentUserWebId()
+      if (!userWebId) {
+        userWebId = await login()
       }
-      console.log('Hay sesión en ', session.webId)
+      console.log(`Logado usuario ${userWebId}`)
+
+      const user = await currentUserVCard()
+      console.log(`Eres ${user.fullName}`)
+      console.log(`Organización ${user.organizationName}`)
+      console.log(`Rol ${user.role}`)
     },
   },
 }
