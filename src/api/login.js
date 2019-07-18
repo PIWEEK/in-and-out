@@ -8,25 +8,26 @@ export async function login () {
   return session.webId
 }
 
-export async function currentUserWebId () {
+export async function getCurrentUserUri () {
   let session = await auth.currentSession()
   if (!session) {
     return null
   }
-  return new rdf.NamedNode(session.webId)
+  return session.webId
 }
 
-export async function currentUserVCard () {
-  const webId = await currentUserWebId()
+export async function getCurrentUser () {
+  const userNode = rdf.sym(await getCurrentUserUri())
 
   const user = rdf.graph()
   const fetcher = new rdf.Fetcher(user)
-  await fetcher.load(webId.uri)
+  await fetcher.load(userNode.uri)
 
   return {
-    fullName: user.any(webId, VCARD('fn')).value,
-    organizationName: user.any(webId, VCARD('organization-name')).value,
-    role: user.any(webId, VCARD('role')).value,
+    uri: userNode.uri,
+    fullName: user.any(userNode, VCARD('fn')).value,
+    organizationName: user.any(userNode, VCARD('organization-name')).value,
+    role: user.any(userNode, VCARD('role')).value,
   }
 }
 
@@ -39,8 +40,8 @@ export async function currentUserVCard () {
 // // Workaround for a bug https://github.com/winstonjs/winston/issues/1354#issuecomment-426433071
 // import 'setimmediate'
 
-// export async function currentUserVCard () {
-//   const webId = await currentUserWebId()
+// export async function getCurrentUser () {
+//   const webId = await getCurrentUserUri()
 //
 //   const context = {
 //     '@context': {

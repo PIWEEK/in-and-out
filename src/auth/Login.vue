@@ -21,30 +21,39 @@
 </template>
 
 <script>
-import { login, currentUserWebId, currentUserVCard } from '@/api/login'
-import { getOrganization, createOrganization } from '@/api/organization'
+import { login, getCurrentUserUri, getCurrentUser } from '@/api/login'
+import { getCurrentOrg, createOrganization } from '@/api/organization'
+import { getAllRecords, getTodayRecords } from '@/api/record'
 
 export default {
   name: 'Login',
   methods: {
     async login () {
-      let userWebId = await currentUserWebId()
-      if (!userWebId) {
-        userWebId = await login()
+      let userUri = await getCurrentUserUri()
+      if (!userUri) {
+        userUri = await login()
       }
-      console.log(`Logado usuario ${userWebId.uri}`)
+      console.log(`Logado usuario ${userUri}`)
 
-      const user = await currentUserVCard()
+      const user = await getCurrentUser()
       console.log(`Eres ${user.fullName}`)
       console.log(`Organización ${user.organizationName}`)
       console.log(`Rol ${user.role}`)
+
+      const allRecords = await getAllRecords()
+      console.log('todos los registros')
+      console.log(allRecords)
+
+      const todayRecords = await getTodayRecords()
+      console.log('registros de hoy')
+      console.log(todayRecords)
     },
 
     async create () {
-      let org = await getOrganization('Kaleidos')
+      let org = await getCurrentOrg()
       if (!org) {
-        await createOrganization('Kaleidos')
-        org = await getOrganization('Kaleidos')
+        await createOrganization()
+        org = await getCurrentOrg()
       }
       console.log('Organización', org)
     },
