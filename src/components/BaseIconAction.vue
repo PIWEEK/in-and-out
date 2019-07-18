@@ -1,10 +1,12 @@
 <template functional>
-  <FaIcon v-if="!props.loading" v-bind="props" v-on="listeners" />
-  <FaLayers
-    v-else
-    class="opacity-50 cursor-not-allowed"
-    :class="{ [`fa-${props.size}`]: props.size }"
-  >
+  <FaIcon
+    v-if="!props.loading"
+    size="4x"
+    :class="{ 'opacity-50 cursor-not-allowed': props.disabled }"
+    :icon="props.icon"
+    @click="props.disabled || listeners.click()"
+  />
+  <FaLayers v-else class="opacity-50 cursor-not-allowed fa-4x">
     <FaIcon icon="circle" />
     <FaIcon
       icon="spinner"
