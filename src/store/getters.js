@@ -1,12 +1,15 @@
+import sortBy from 'lodash/sortBy'
+import values from 'lodash/values'
+
 export default {
   todayState (state) {
     return state.today
   },
-  todayRecords (s, { todayState }) {
-    return todayState.records
+  todayRecordsList (s, { todayState }) {
+    return values(todayState.records)
   },
-  todaySortedRecords (s, { todayState }) {
-    return [...todayState.records].sort((a, b) => a.startTime - b.startTime)
+  todaySortedRecords (s, { todayRecordsList }) {
+    return sortBy(todayRecordsList, 'startTime')
   },
   todayStatus (s, { todaySortedRecords }) {
     let status
@@ -22,5 +25,8 @@ export default {
   },
   todayStartRecord (s, { todaySortedRecords }) {
     return todaySortedRecords[0]
+  },
+  todayLastRecord (s, { todaySortedRecords }) {
+    return todaySortedRecords[todaySortedRecords.length - 1]
   },
 }

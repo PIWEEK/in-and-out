@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'NowWorking',
@@ -48,7 +48,15 @@ export default {
     },
   },
   methods: {
-    handlePauseClick () {},
+    ...mapActions(['pauseTodayRegister']),
+    async handlePauseClick () {
+      this.pauseLoading = true
+      try {
+        await this.pauseTodayRegister()
+      } finally {
+        this.pauseLoading = false
+      }
+    },
     handleResumeClick () {},
     handleStopClick () {},
   },
