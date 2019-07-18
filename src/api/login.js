@@ -23,7 +23,7 @@ export async function getCurrentUser () {
   const fetcher = new rdf.Fetcher(user)
   await fetcher.load(userNode.uri)
 
-  return {
+  return { // TODO: be prepared for null values
     uri: userNode.uri,
     fullName: user.any(userNode, VCARD('fn')).value,
     organizationName: user.any(userNode, VCARD('organization-name')).value,
