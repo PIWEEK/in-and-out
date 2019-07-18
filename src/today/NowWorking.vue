@@ -23,7 +23,7 @@
     <div class="flex-1 flex flex-col items-center justify-around text-3xl text-primary">
       <BaseIconAction
         v-if="isPaused"
-        icon="play-circle"
+        icon="resume-circle"
         :loading="resumeLoading"
         @click="handleResumeClick"
       />
