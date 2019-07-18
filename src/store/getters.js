@@ -29,4 +29,9 @@ export default {
   todayLastRecord (s, { todaySortedRecords }) {
     return todaySortedRecords[todaySortedRecords.length - 1]
   },
+  todayPauses (s, { todaySortedRecords }) {
+    return todaySortedRecords
+      .slice(1)
+      .map((record, i) => ({ start: todaySortedRecords[i].endTime, end: record.startTime }))
+  },
 }

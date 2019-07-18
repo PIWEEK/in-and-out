@@ -1,4 +1,4 @@
-import { createRecord, getTodayRecords, pauseRecording } from '@/api/record'
+import { createRecord, getTodayRecords, pauseRecording, resumeRecording } from '@/api/record'
 import { loadLanguageAsync } from '@/setup/i18n'
 
 export default {
@@ -19,5 +19,9 @@ export default {
     await pauseRecording()
     const { uri } = getters.todayLastRecord
     commit('updateTodayRecord', { uri, data: { endTime: new Date() } })
+  },
+  async resumeTodayRegister ({ commit, dispatch, getters }) {
+    await resumeRecording()
+    return dispatch('fetchTodayStatus')
   },
 }
