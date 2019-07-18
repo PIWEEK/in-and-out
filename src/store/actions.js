@@ -1,4 +1,10 @@
-import { createRecord, getTodayRecords, pauseRecording, resumeRecording } from '@/api/record'
+import {
+  completeRecording,
+  createRecord,
+  getTodayRecords,
+  pauseRecording,
+  resumeRecording,
+} from '@/api/record'
 import { loadLanguageAsync } from '@/setup/i18n'
 
 export default {
@@ -23,5 +29,13 @@ export default {
   async resumeTodayRegister ({ commit, dispatch, getters }) {
     await resumeRecording()
     return dispatch('fetchTodayStatus')
+  },
+  async finishTodayRegister ({ commit, dispatch, getters }) {
+    await completeRecording()
+    const { uri } = getters.todayLastRecord
+    commit('updateTodayRecord', { uri, data: { endTime: new Date() } })
+    commit('setTodayRecords', getters.todayRecordsList.map(
+      record => ({ ...record, actionStatus: 'completed' })
+    ))
   },
 }

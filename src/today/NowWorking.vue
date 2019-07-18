@@ -61,7 +61,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['pauseTodayRegister', 'resumeTodayRegister']),
+    ...mapActions(['pauseTodayRegister', 'resumeTodayRegister', 'finishTodayRegister']),
     async handlePauseClick () {
       this.pauseLoading = true
       try {
@@ -78,7 +78,14 @@ export default {
         this.resumeLoading = false
       }
     },
-    handleStopClick () {},
+    async handleStopClick () {
+      this.stopLoading = true
+      try {
+        await this.finishTodayRegister()
+      } finally {
+        this.stopLoading = false
+      }
+    },
   },
 }
 </script>
