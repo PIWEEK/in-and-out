@@ -6,6 +6,7 @@ import {
   faPlus,
   faSpinner,
   faStopCircle,
+  faRedoAlt,
   faLongArrowAltRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome'
@@ -18,6 +19,7 @@ library.add(
   faSpinner,
   faPauseCircle,
   faStopCircle,
+  faRedoAlt,
   faLongArrowAltRight
 )
 

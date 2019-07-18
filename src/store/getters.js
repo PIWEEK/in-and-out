@@ -1,5 +1,7 @@
 import sortBy from 'lodash/sortBy'
 import values from 'lodash/values'
+import get from 'lodash/get'
+import last from 'lodash/last'
 
 export default {
   todayState (state) {
@@ -16,7 +18,7 @@ export default {
     if (todaySortedRecords.length > 0) {
       status = todaySortedRecords[0].actionStatus === 'completed'
         ? 'done'
-        : todaySortedRecords[todaySortedRecords.length - 1].endTime === null
+        : last(todaySortedRecords).endTime === null
           ? 'working' : 'paused'
     } else {
       status = 'ready'
@@ -27,11 +29,14 @@ export default {
     return todaySortedRecords[0]
   },
   todayLastRecord (s, { todaySortedRecords }) {
-    return todaySortedRecords[todaySortedRecords.length - 1]
+    return last(todaySortedRecords)
   },
   todayPauses (s, { todaySortedRecords }) {
     return todaySortedRecords
-      .slice(1)
-      .map((record, i) => ({ start: todaySortedRecords[i].endTime, end: record.startTime }))
+      .filter(record => record.endTime !== null)
+      .map((record, i) => ({
+        start: record.endTime,
+        end: get(todaySortedRecords, `${i + 1}.startTime`),
+      }))
   },
 }

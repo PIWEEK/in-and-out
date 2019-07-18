@@ -32,8 +32,10 @@ export default {
   },
   async finishTodayRegister ({ commit, dispatch, getters }) {
     await completeRecording()
-    const { uri } = getters.todayLastRecord
-    commit('updateTodayRecord', { uri, data: { endTime: new Date() } })
+    const { uri, endTime } = getters.todayLastRecord
+    if (endTime === null) {
+      commit('updateTodayRecord', { uri, data: { endTime: new Date() } })
+    }
     commit('setTodayRecords', getters.todayRecordsList.map(
       record => ({ ...record, actionStatus: 'completed' })
     ))

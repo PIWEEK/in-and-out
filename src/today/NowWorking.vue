@@ -7,10 +7,10 @@
           {{ startRecord.startTime | hourAndMinute }}
         </div>
       </div>
-      <div v-if="pauses.length" class="flex my-2">
+      <div v-if="pauses.length" class="flex pt-2">
         <FaIcon icon="pause-circle" class="mr-4" />
         <div class="flex-1">
-          <div v-for="pause in pauses" :key="pause.start.getTime()" class="leading-none">
+          <div v-for="pause in pauses" :key="pause.start.getTime()" class="leading-none pb-2">
             {{ pause.start | hourAndMinute }}
             <template v-if="pause.end">
               <FaIcon class="mx-2" icon="long-arrow-alt-right" />
@@ -23,7 +23,7 @@
     <div class="flex-1 flex flex-col items-center justify-around text-3xl text-primary">
       <BaseIconAction
         v-if="isPaused"
-        icon="play-circle"
+        icon="resume-circle"
         :loading="resumeLoading"
         @click="handleResumeClick"
       />
