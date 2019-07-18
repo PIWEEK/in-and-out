@@ -22,6 +22,10 @@ const statusComponentMap = {
   done: WorkDone,
 }
 
+function formatDateParam (date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
 export default {
   name: 'TodayModule',
   components: {
@@ -44,6 +48,12 @@ export default {
     this.loading = true
     try {
       await this.fetchTodayStatus()
+      if (this.status === 'done') {
+        this.$router.replace({
+          name: 'register-detail',
+          params: { date: formatDateParam(new Date()) },
+        })
+      }
     } finally {
       this.loading = false
     }
