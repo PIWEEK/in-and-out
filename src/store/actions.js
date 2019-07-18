@@ -1,5 +1,5 @@
+import { createRecord, getTodayRecords } from '@/api/record'
 import { loadLanguageAsync } from '@/setup/i18n'
-import { createRecord } from '@/api/record'
 
 export default {
   async changeLanguage ({ commit }, lang) {
@@ -8,13 +8,12 @@ export default {
   },
 
   async fetchTodayStatus ({ commit }) {
-    // await new Promise(resolve => setTimeout(resolve, 2000))
-    commit('setTodayState', { status: 'ready' })
+    const records = await getTodayRecords()
+    commit('setTodayState', { records })
   },
 
-  async startTodayRegister ({ commit }, date) {
+  async startTodayRegister ({ commit, dispatch }, date) {
     await createRecord(date)
-    // await new Promise(resolve => setTimeout(resolve, 2000))
-    commit('setTodayStart', date)
+    return dispatch('fetchTodayStatus')
   },
 }
