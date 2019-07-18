@@ -13,7 +13,7 @@ export default {
     if (todaySortedRecords.length > 0) {
       status = todaySortedRecords[0].actionStatus === 'completed'
         ? 'done'
-        : todaySortedRecords.pop().endTime === null
+        : todaySortedRecords[todaySortedRecords.length - 1].endTime === null
           ? 'working' : 'paused'
     } else {
       status = 'ready'

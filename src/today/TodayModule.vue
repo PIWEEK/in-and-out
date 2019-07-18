@@ -18,6 +18,7 @@ import WorkDone from './WorkDone'
 const statusComponentMap = {
   ready: ReadyToWork,
   working: NowWorking,
+  paused: NowWorking,
   done: WorkDone,
 }
 

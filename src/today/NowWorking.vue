@@ -6,6 +6,13 @@
     </div>
     <div class="flex-1 flex flex-col items-center justify-around text-3xl text-primary">
       <BaseIconAction
+        v-if="isPaused"
+        icon="play-circle"
+        :loading="resumeLoading"
+        @click="handleResumeClick"
+      />
+      <BaseIconAction
+        v-else
         icon="pause-circle"
         :loading="pauseLoading"
         @click="handlePauseClick"
@@ -27,14 +34,22 @@ export default {
   data () {
     return {
       pauseLoading: false,
+      resumeLoading: false,
       stopLoading: false,
     }
   },
   computed: {
-    ...mapGetters({ startRecord: 'todayStartRecord' }),
+    ...mapGetters({
+      startRecord: 'todayStartRecord',
+      records: 'todaySortedRecords',
+    }),
+    isPaused () {
+      return this.records[this.records.length - 1].endTime !== null
+    },
   },
   methods: {
     handlePauseClick () {},
+    handleResumeClick () {},
     handleStopClick () {},
   },
 }
