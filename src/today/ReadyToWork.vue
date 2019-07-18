@@ -2,7 +2,11 @@
   <div class="h-full flex flex-col p-6">
     <div class="flex-1 flex flex-col items-center justify-around">
       <div class="text-3xl text-primary">
-        <FaIcon size="4x" :icon="['fas', 'play-circle']" @click="handlePlayClick" />
+        <BaseIconAction
+          icon="play-circle"
+          :loading="loading"
+          @click="handlePlayClick"
+        />
       </div>
       <BaseButton kind="primary" @click="gotToRegisterDetail(new Date())">
         {{ $t('today.ready.manual-registration') }}
@@ -26,6 +30,11 @@ function formatDateParam (date) {
 export default {
   name: 'ReadyToWork',
   components: { RegisterMonthCalendar },
+  data () {
+    return {
+      loading: false,
+    }
+  },
   methods: {
     ...mapActions(['startTodayRegister']),
     gotToRegisterDetail (date) {
@@ -34,8 +43,13 @@ export default {
         params: { date: formatDateParam(date) },
       })
     },
-    handlePlayClick () {
-      this.startTodayRegister(new Date())
+    async handlePlayClick () {
+      this.loading = true
+      try {
+        await this.startTodayRegister(new Date())
+      } finally {
+        this.loading = false
+      }
     },
   },
 }
