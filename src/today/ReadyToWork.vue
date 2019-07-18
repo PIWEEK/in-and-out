@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col p-6">
     <div class="flex-1 flex flex-col items-center justify-around">
       <div class="text-3xl text-primary">
-        <FaIcon size="4x" :icon="['fas', 'play-circle']" @click="handlePlayClick" />
+        <BaseIconAction size="4x" :icon="['fas', 'play-circle']" @click="handlePlayClick" />
       </div>
       <BaseButton kind="primary" @click="gotToRegisterDetail(new Date())">
         {{ $t('today.ready.manual-registration') }}
