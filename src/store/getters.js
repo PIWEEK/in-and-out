@@ -20,4 +20,7 @@ export default {
     }
     return status
   },
+  todayStartRecord (s, { todaySortedRecords }) {
+    return todaySortedRecords[0]
+  },
 }
