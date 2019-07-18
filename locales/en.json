@@ -1,6 +1,7 @@
 {
   "login": {
-    "log-in": "Log in"
+    "log-in": "Log in",
+    "log-out": "Log out"
   },
   "today": {
     "ready": {
