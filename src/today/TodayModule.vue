@@ -1,7 +1,7 @@
 <template>
   <component
     :is="activeComponent"
-    v-if="activeComponent"
+    v-if="!loading && activeComponent"
   />
   <div v-else>
     We are fetching your work status...
@@ -28,14 +28,24 @@ export default {
     NowWorking,
     WorkDone,
   },
+  data () {
+    return {
+      loading: false,
+    }
+  },
   computed: {
     ...mapGetters({ status: 'todayStatus' }),
     activeComponent () {
       return statusComponentMap[this.status]
     },
   },
-  created () {
-    this.fetchTodayStatus()
+  async created () {
+    this.loading = true
+    try {
+      await this.fetchTodayStatus()
+    } finally {
+      this.loading = false
+    }
   },
   methods: mapActions(['fetchTodayStatus']),
 }
