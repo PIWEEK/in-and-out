@@ -8,6 +8,10 @@ export async function login () {
   return session.webId
 }
 
+export async function logout () {
+  await auth.logout()
+}
+
 export async function getCurrentUserUri () {
   let session = await auth.currentSession()
   if (!session) {

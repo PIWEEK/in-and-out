@@ -1,5 +1,8 @@
 <template>
   <div class="h-full flex flex-col p-6">
+    <BaseButton kind="secondary" @click="logout()">
+      {{ $t('login.log-out') }}
+    </BaseButton>
     <div class="flex-1 flex flex-col items-center justify-around">
       <div class="text-3xl text-primary">
         <BaseIconAction
@@ -23,6 +26,9 @@ import { mapActions } from 'vuex'
 
 import RegisterMonthCalendar from '@/components/RegisterMonthCalendar'
 
+import router from '@/router'
+import { logout } from '@/api/login'
+
 function formatDateParam (date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
@@ -37,6 +43,10 @@ export default {
   },
   methods: {
     ...mapActions(['startTodayRegister']),
+    async logout () {
+      await logout()
+      router.push('/login')
+    },
     gotToRegisterDetail (date) {
       this.$router.push({
         name: 'register-detail',

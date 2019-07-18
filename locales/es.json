@@ -1,6 +1,7 @@
 {
   "login": {
-    "log-in": "Entrar"
+    "log-in": "Entrar",
+    "log-out": "Salir"
   },
   "today": {
     "ready": {
