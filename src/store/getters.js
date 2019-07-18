@@ -1,23 +1,37 @@
+import sortBy from 'lodash/sortBy'
+import values from 'lodash/values'
+
 export default {
   todayState (state) {
     return state.today
   },
-  todayRecords (s, { todayState }) {
-    return todayState.records
+  todayRecordsList (s, { todayState }) {
+    return values(todayState.records)
   },
-  todaySortedRecords (s, { todayState }) {
-    return [...todayState.records].sort((a, b) => a.startTime - b.startTime)
+  todaySortedRecords (s, { todayRecordsList }) {
+    return sortBy(todayRecordsList, 'startTime')
   },
   todayStatus (s, { todaySortedRecords }) {
     let status
     if (todaySortedRecords.length > 0) {
       status = todaySortedRecords[0].actionStatus === 'completed'
         ? 'done'
-        : todaySortedRecords.pop().endTime === null
+        : todaySortedRecords[todaySortedRecords.length - 1].endTime === null
           ? 'working' : 'paused'
     } else {
       status = 'ready'
     }
     return status
+  },
+  todayStartRecord (s, { todaySortedRecords }) {
+    return todaySortedRecords[0]
+  },
+  todayLastRecord (s, { todaySortedRecords }) {
+    return todaySortedRecords[todaySortedRecords.length - 1]
+  },
+  todayPauses (s, { todaySortedRecords }) {
+    return todaySortedRecords
+      .slice(1)
+      .map((record, i) => ({ start: todaySortedRecords[i].endTime, end: record.startTime }))
   },
 }

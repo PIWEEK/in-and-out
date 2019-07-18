@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import App from '@/App'
 import '@/components'
+import '@/filters'
 import router from '@/router'
 import '@/setup/font-awesome'
 import i18n from '@/setup/i18n'

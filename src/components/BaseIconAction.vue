@@ -2,7 +2,10 @@
   <FaIcon
     v-if="!props.loading"
     size="4x"
-    :class="{ 'opacity-50 cursor-not-allowed': props.disabled }"
+    :class="{
+      'opacity-50 cursor-not-allowed': props.disabled,
+      'cursor-pointer': !props.disabled,
+    }"
     :icon="props.icon"
     @click="props.disabled || listeners.click()"
   />

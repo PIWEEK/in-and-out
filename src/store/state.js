@@ -9,7 +9,7 @@ export const initialState = {
     data: undefined,
   },
   today: {
-    records: [],
+    records: {},
   },
 }
 
