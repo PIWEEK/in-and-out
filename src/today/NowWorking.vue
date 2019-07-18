@@ -35,6 +35,9 @@
       />
       <BaseIconAction icon="stop-circle" :loading="stopLoading" @click="handleStopClick" />
     </div>
+    <div class="flex flex-col items-center justify-around text-xl text-primary">
+      TOTAL: {{ runningTotal | duration }}
+    </div>
   </div>
 </template>
 
@@ -48,6 +51,8 @@ export default {
       pauseLoading: false,
       resumeLoading: false,
       stopLoading: false,
+      runningTotal: 0,
+      timer: undefined,
     }
   },
   computed: {
@@ -55,10 +60,24 @@ export default {
       startRecord: 'todayStartRecord',
       records: 'todaySortedRecords',
       pauses: 'todayPauses',
+      total: 'todayTotal',
+      startOfCurrentRecord: 'startOfCurrentRecord',
     }),
     isPaused () {
       return this.records[this.records.length - 1].endTime !== null
     },
+  },
+  async created () {
+    this.timer = setInterval(() => {
+      let acum = this.total
+      if (this.startOfCurrentRecord) {
+        acum += (Date.now() - this.startOfCurrentRecord.getTime())
+      }
+      this.runningTotal = acum
+    }, 1000)
+  },
+  async beforeDestroy () {
+    clearInterval(this.timer)
   },
   methods: {
     ...mapActions(['pauseTodayRegister', 'resumeTodayRegister', 'finishTodayRegister']),
