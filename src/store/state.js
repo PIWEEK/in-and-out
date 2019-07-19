@@ -11,6 +11,12 @@ export const initialState = {
   today: {
     records: {},
   },
+  register: {
+    records: {},
+    detail: {
+      date: undefined,
+    },
+  },
 }
 
 export default initialState

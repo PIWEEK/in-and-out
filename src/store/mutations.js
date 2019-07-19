@@ -3,6 +3,15 @@ export default {
     state.i18n.lang = lang
   },
 
+  setRegisterRecords (state, records) {
+    state.register.records = records
+      .reduce((recordsMap, record) => ({ ...recordsMap, [record.uri]: record }), {})
+  },
+
+  setRegisterDetailDate (state, date) {
+    state.register.detail.date = date.getTime()
+  },
+
   setTodayRecords (state, records) {
     state.today.records = records
       .reduce((recordsMap, record) => ({ ...recordsMap, [record.uri]: record }), {})
