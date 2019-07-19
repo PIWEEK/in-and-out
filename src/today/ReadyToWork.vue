@@ -11,9 +11,6 @@
           @click="handlePlayClick"
         />
       </div>
-      <BaseButton kind="primary" @click="gotToRegisterDetail(new Date())">
-        {{ $t('today.ready.manual-registration') }}
-      </BaseButton>
     </div>
     <div>
       <RegisterMonthCalendar @date-click="gotToRegisterDetail" />

@@ -2,6 +2,7 @@
   <button
     class="font-bold py-2 px-4 rounded"
     :class="{
+      [data.staticClass]: true,
       [`text-white bg-${props.kind} hover:bg-${props.kind}-dark`]: !props.outline,
       [`bg-transparent hover:bg-${props.kind} text-${props.kind} hover:text-white
         border border-${props.kind} hover:border-transparent`]: props.outline,

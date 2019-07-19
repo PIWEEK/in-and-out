@@ -3,11 +3,14 @@
     <div
       v-for="dateData in monthDatesData"
       :key="dateData.instance.toString()"
-      class="w-1/5 p-1 border border-secondary flex flex-col"
-      :class="{ 'cursor-pointer': !dateData.isFuture }"
+      class="p-1 border border-secondary flex flex-col"
+      :class="{
+        'cursor-pointer': !dateData.isFuture,
+        [`w-1/${daysPerWeek}`]: daysPerWeek,
+      }"
       @click="!dateData.isFuture && handleDateClick(dateData)"
     >
-      <div class="text-xs leading-none">
+      <div class="text-xs leading-none pb-1">
         {{ dateData.date }}
       </div>
       <div class="self-end text-primary">
@@ -37,6 +40,10 @@ export default {
       type: Number,
       default () { return todayMonth },
     },
+    daysPerWeek: {
+      type: Number,
+      default: 7,
+    },
   },
   computed: {
     monthDatesData () {
@@ -44,7 +51,9 @@ export default {
       const weeks = 6 + (indexModif < 5 ? -1 : 0)
       return Array(7 * weeks).fill()
         .map((v, i) => new Date(todayYear, this.month, (i + 1) - indexModif))
-        .filter(date => date.getDay() && date.getDay() < 6)
+        .filter(date =>
+          this.daysPerWeek === 7 || (date.getDay() && date.getDay() < this.daysPerWeek + 1)
+        )
         .map(date => ({
           instance: date,
           icon: this.getDateIcon(date),
