@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-wrap border border-secondary rounded">
+  <div class="flex flex-wrap rounded">
     <div
       v-for="dateData in monthDatesData"
       :key="dateData.instance.toString()"
-      class="p-1 border border-secondary flex flex-col"
+      class="p-1 border border-tertiary flex flex-col"
       :class="{
         'cursor-pointer': !dateData.isFuture,
         [`w-1/${daysPerWeek}`]: daysPerWeek,
@@ -47,6 +47,7 @@ export default {
   },
   computed: {
     monthDatesData () {
+      console.log('reeeeee', this.records)
       const indexModif = (new Date(todayYear, this.month, 1)).getDay() - 1
       const weeks = 6 + (indexModif < 5 ? -1 : 0)
       return Array(7 * weeks).fill()

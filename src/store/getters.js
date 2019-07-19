@@ -12,6 +12,10 @@ export default {
     return values(state.register.records)
   },
 
+  getMonthTotals (s, { registerRecordsList }) {
+    return registerRecordsList()
+  },
+
   getRegisterDateRecords: (s, { registerRecordsList }) => date => {
     return registerRecordsList.filter(
       record => formatDateParam(record.startTime) === formatDateParam(date)

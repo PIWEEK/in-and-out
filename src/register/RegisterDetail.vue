@@ -46,7 +46,10 @@
       </div>
     </div>
     <div>
-      <RegisterMonthCalendar @date-click="goToRegisterDetail" />
+      <RegisterMonthCalendar
+        :records="allRecords"
+        @date-click="goToRegisterDetail"
+      />
     </div>
     <div class="text-center pt-4">
       <BaseButton
@@ -88,6 +91,7 @@ export default {
       records: 'registerDetailSortedRecords',
       pauses: 'registerDetailPauses',
       duration: 'registerDetailDuration',
+      allRecords: 'registerRecordsList',
     }),
     start () { return get(first(this.records), 'startTime') },
     end () { return get(last(this.records), 'endTime') },
