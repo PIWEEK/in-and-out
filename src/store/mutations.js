@@ -16,12 +16,14 @@ export default {
     state.today.records = records
       .reduce((recordsMap, record) => ({ ...recordsMap, [record.uri]: record }), {})
   },
+
   setTodayRecord (state, record) {
     state.today.records = {
       ...state.today.records,
       [record.uri]: record,
     }
   },
+
   updateTodayRecord (state, { uri, data }) {
     state.today.records = {
       ...state.today.records,

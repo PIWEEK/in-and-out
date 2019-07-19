@@ -8,5 +8,8 @@
     "ready": {
       "manual-registration": "Manual registration"
     }
+  },
+  "register": {
+    "clear-data": "Clear data"
   }
 }

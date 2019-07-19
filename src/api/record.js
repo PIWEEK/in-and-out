@@ -55,13 +55,32 @@ export async function deleteRecord (record) {
     rdf.st(recordNode, SCHEMA('agent'), userNode, orgNode),
     rdf.st(recordNode, SCHEMA('startTime'), record.startTime, orgNode),
     rdf.st(recordNode, SCHEMA('actionStatus'), statusToNode(record.actionStatus), orgNode),
-  ]
+  ].concat(
+    record.endTime
+      ? [rdf.st(recordNode, SCHEMA('endTime'), record.startTime, orgNode)]
+      : []
+  )
 
-  if (record.endTime) {
-    del.push(
-      rdf.st(recordNode, SCHEMA('endTime'), record.endTime, orgNode),
-    )
-  }
+  const updater = new rdf.UpdateManager()
+  await updater.update(del, [])
+}
+
+export async function deleteAllRecords () {
+  const orgNode = rdf.sym(await getCurrentOrgUri())
+  const userNode = rdf.sym(await getCurrentUserUri())
+  const todayRecords = await getTodayRecords()
+
+  const del = todayRecords.flatMap((record) => [
+    rdf.st(rdf.sym(record.uri), RDF('type'), SCHEMA('Action'), orgNode),
+    rdf.st(rdf.sym(record.uri), SCHEMA('name'), record.name, orgNode),
+    rdf.st(rdf.sym(record.uri), SCHEMA('agent'), userNode, orgNode),
+    rdf.st(rdf.sym(record.uri), SCHEMA('startTime'), record.startTime, orgNode),
+    rdf.st(rdf.sym(record.uri), SCHEMA('actionStatus'), statusToNode(record.actionStatus), orgNode),
+  ].concat(
+    record.endTime
+      ? [rdf.st(rdf.sym(record.uri), SCHEMA('endTime'), record.endTime, orgNode)]
+      : []
+  ))
 
   const updater = new rdf.UpdateManager()
   await updater.update(del, [])

@@ -5,6 +5,7 @@ import {
   getTodayRecords,
   pauseRecording,
   resumeRecording,
+  deleteAllRecords,
 } from '@/api/record'
 import { loadLanguageAsync } from '@/setup/i18n'
 
@@ -23,19 +24,23 @@ export default {
     const records = await getTodayRecords()
     commit('setTodayRecords', records)
   },
+
   async startTodayRegister ({ commit, dispatch }, date) {
     await createRecord(date)
     return dispatch('fetchTodayStatus')
   },
+
   async pauseTodayRegister ({ commit, dispatch, getters }) {
     await pauseRecording()
     const { uri } = getters.todayLastRecord
     commit('updateTodayRecord', { uri, data: { endTime: new Date() } })
   },
+
   async resumeTodayRegister ({ commit, dispatch, getters }) {
     await resumeRecording()
     return dispatch('fetchTodayStatus')
   },
+
   async finishTodayRegister ({ commit, dispatch, getters }) {
     await completeRecording()
     const { uri, endTime } = getters.todayLastRecord
@@ -45,5 +50,10 @@ export default {
     commit('setTodayRecords', getters.todayRecordsList.map(
       record => ({ ...record, actionStatus: 'completed' })
     ))
+  },
+
+  async clearData ({ commit }) {
+    await deleteAllRecords()
+    commit('setTodayRecords', [])
   },
 }

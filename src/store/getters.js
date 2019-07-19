@@ -11,6 +11,7 @@ export default {
   registerRecordsList (state) {
     return values(state.register.records)
   },
+
   getRegisterDateRecords: (s, { registerRecordsList }) => date => {
     return registerRecordsList.filter(
       record => formatDateParam(record.startTime) === formatDateParam(date)
@@ -20,12 +21,15 @@ export default {
   registerDetailDate (state) {
     return new Date(state.register.detail.date)
   },
+
   registerDetailRecords (s, { getRegisterDateRecords, registerDetailDate }) {
     return getRegisterDateRecords(registerDetailDate)
   },
+
   registerDetailSortedRecords (s, { registerDetailRecords }) {
     return sortBy(registerDetailRecords, 'startTime')
   },
+
   registerDetailPauses (s, { registerDetailSortedRecords }) {
     return registerDetailSortedRecords
       .slice(0, -1)
@@ -34,6 +38,7 @@ export default {
         end: get(registerDetailSortedRecords, `${i + 1}.startTime`),
       }))
   },
+
   registerDetailDuration (s, { registerDetailRecords }) {
     return registerDetailRecords
       .map(record => record.endTime.getTime() - record.startTime.getTime())
@@ -43,12 +48,15 @@ export default {
   todayState (state) {
     return state.today
   },
+
   todayRecordsList (s, { todayState }) {
     return values(todayState.records)
   },
+
   todaySortedRecords (s, { todayRecordsList }) {
     return sortBy(todayRecordsList, 'startTime')
   },
+
   todayStatus (s, { todaySortedRecords }) {
     let status
     if (todaySortedRecords.length > 0) {
@@ -61,12 +69,15 @@ export default {
     }
     return status
   },
+
   todayStartRecord (s, { todaySortedRecords }) {
     return todaySortedRecords[0]
   },
+
   todayLastRecord (s, { todaySortedRecords }) {
     return last(todaySortedRecords)
   },
+
   todayPauses (s, { todaySortedRecords }) {
     return todaySortedRecords
       .filter(record => record.endTime !== null)
@@ -75,6 +86,7 @@ export default {
         end: get(todaySortedRecords, `${i + 1}.startTime`),
       }))
   },
+
   todayTotal (s, { todaySortedRecords }) {
     return todaySortedRecords
       .filter((record) => !!record.endTime)
@@ -83,6 +95,7 @@ export default {
         0
       )
   },
+
   startOfCurrentRecord (s, { todaySortedRecords }) {
     const activeRecord = todaySortedRecords.find((record) => !record.endTime)
     if (activeRecord) {

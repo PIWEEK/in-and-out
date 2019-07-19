@@ -8,5 +8,9 @@
     "ready": {
       "manual-registration": "Registro manual"
     }
+  },
+  "register": {
+    "clear-data": "Borrar datos"
   }
+
 }
