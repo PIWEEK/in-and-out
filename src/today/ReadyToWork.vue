@@ -13,7 +13,7 @@
       </div>
     </div>
     <div>
-      <RegisterMonthCalendar @date-click="gotToRegisterDetail" />
+      <RegisterMonthCalendar @date-click="goToRegisterDetail" />
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
       await logout()
       router.push('/login')
     },
-    gotToRegisterDetail (date) {
+    goToRegisterDetail (date) {
       this.$router.push({
         name: 'register-detail',
         params: { date: formatDateParam(date) },

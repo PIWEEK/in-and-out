@@ -35,9 +35,13 @@
         {{ duration | duration }}
       </div>
     </div>
-    <div class="text-center">
+    <div>
+      <RegisterMonthCalendar @date-click="goToRegisterDetail" />
+    </div>
+    <div class="text-center pt-4">
       <BaseButton
         kind="secondary"
+        class="w-full"
         @click="clear()"
       >
         {{ $t('register.clear-data') }}
@@ -53,8 +57,15 @@ import last from 'lodash/last'
 import get from 'lodash/get'
 import router from '@/router'
 
+import RegisterMonthCalendar from '@/components/RegisterMonthCalendar'
+
+function formatDateParam (date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
 export default {
   name: 'RegisterDetail',
+  components: { RegisterMonthCalendar },
   props: {
     date: {
       type: String,
@@ -84,6 +95,12 @@ export default {
       const dateParts = newDate.split('-')
       const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
       this.setRegisterDetailDate(date)
+    },
+    goToRegisterDetail (date) {
+      this.$router.push({
+        name: 'register-detail',
+        params: { date: formatDateParam(date) },
+      })
     },
     async clear () {
       await this.clearData()
