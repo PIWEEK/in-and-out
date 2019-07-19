@@ -44,6 +44,29 @@ export async function createRecord (startTime) {
   await updater.update([], ins)
 }
 
+export async function deleteRecord (record) {
+  const orgNode = rdf.sym(await getCurrentOrgUri())
+  const userNode = rdf.sym(await getCurrentUserUri())
+  const recordNode = rdf.sym(record.uri)
+
+  const del = [
+    rdf.st(recordNode, RDF('type'), SCHEMA('Action'), orgNode),
+    rdf.st(recordNode, SCHEMA('name'), record.name, orgNode),
+    rdf.st(recordNode, SCHEMA('agent'), userNode, orgNode),
+    rdf.st(recordNode, SCHEMA('startTime'), record.startTime, orgNode),
+    rdf.st(recordNode, SCHEMA('actionStatus'), statusToNode(record.actionStatus), orgNode),
+  ]
+
+  if (record.endTime) {
+    del.push(
+      rdf.st(recordNode, SCHEMA('endTime'), record.endTime, orgNode),
+    )
+  }
+
+  const updater = new rdf.UpdateManager()
+  await updater.update(del, [])
+}
+
 export async function pauseRecording () {
   const orgNode = rdf.sym(await getCurrentOrgUri())
 
@@ -116,9 +139,6 @@ export async function completeRecording () {
   if (currentRecord.actionStatus !== 'active') {
     throw new Error('You cannot complete if you already completed recording')
   }
-  if (currentRecord.endTime !== null) {
-    throw new Error('You cannot complete if you are in pause')
-  }
 
   // To complete recording we set the endTime of the current record,
   // and mark all of today records as complete
@@ -126,16 +146,50 @@ export async function completeRecording () {
     rdf.st(rdf.sym(record.uri), SCHEMA('actionStatus'), SCHEMA('ActiveActionStatus'), orgNode)
   )
 
-  const recordNode = rdf.sym(currentRecord.uri)
-  const endTime = new Date()
-  const ins = [
-    rdf.st(recordNode, SCHEMA('endTime'), endTime, orgNode),
-  ].concat(todayRecords.map((record) =>
+  let ins = []
+  if (currentRecord.endTime === null) {
+    const recordNode = rdf.sym(currentRecord.uri)
+    const endTime = new Date()
+    ins = ins.concat([
+      rdf.st(recordNode, SCHEMA('endTime'), endTime, orgNode),
+    ])
+  }
+
+  ins = ins.concat(todayRecords.map((record) =>
     rdf.st(rdf.sym(record.uri), SCHEMA('actionStatus'), SCHEMA('CompletedActionStatus'), orgNode)
   ))
 
   const updater = new rdf.UpdateManager()
   await updater.update(del, ins)
+}
+
+export async function editRecord (record, changes) {
+  const orgNode = rdf.sym(await getCurrentOrgUri())
+  const recordNode = rdf.sym(record.uri)
+
+  const del = []
+  const ins = []
+  if (changes.startTime) {
+    del.append(
+      rdf.st(recordNode, SCHEMA('startTime'), record.startTime, orgNode),
+    )
+    ins.append(
+      rdf.st(recordNode, SCHEMA('startTime'), changes.startTime, orgNode),
+    )
+  }
+  if (changes.endTime) {
+    del.append(
+      rdf.st(recordNode, SCHEMA('endTime'), record.endTime, orgNode),
+    )
+    ins.append(
+      rdf.st(recordNode, SCHEMA('endTime'), changes.endTime, orgNode),
+    )
+  }
+
+  if (del.length > 0) {
+    const updater = new rdf.UpdateManager()
+    await updater.update(del, ins)
+  }
 }
 
 async function loadOrg () {
@@ -169,5 +223,15 @@ function nodeToStatus (node) {
     return 'completed'
   } else {
     throw new Error(`Invalid actionStatus ${node.value}`)
+  }
+}
+
+function statusToNode (status) {
+  if (status === 'active') {
+    return SCHEMA('ActiveActionStatus')
+  } else if (status === 'completed') {
+    return SCHEMA('CompletedActionStatus')
+  } else {
+    throw new Error(`Invalid actionStatus ${status}`)
   }
 }
