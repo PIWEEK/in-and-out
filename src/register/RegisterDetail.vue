@@ -1,38 +1,48 @@
 <template>
   <div class="h-full p-8 flex flex-col">
-    <div class="text-4xl text-center text-primary pb-2 mb-4 border-b border-primary">
+    <div class="text-4xl text-center text-primary pb-2 mb-4">
       {{ dateObject | date }}
     </div>
     <div class="flex-1">
-      <div class="text-2xl">
-        <div class="flex items-center pb-2">
-          <FaIcon icon="play-circle" class="mr-4" />
+      <div class="text-3xl">
+        <div class="flex pb-2">
+          <FaIcon icon="play-circle" class="mr-4 text-primary" />
           <div class="flex-1">
+            <div class="text-xl">
+              Hora de entrada
+            </div>
             {{ start | hourAndMinute }}
           </div>
         </div>
         <div v-if="pauses.length" class="flex pt-2">
-          <FaIcon icon="pause-circle" class="mr-4" />
+          <FaIcon icon="pause-circle" class="mr-4 text-primary" />
           <div class="flex-1">
-            <div v-for="pause in pauses" :key="pause.start.getTime()" class="leading-none pb-2">
+            <div class="text-xl">
+              Pausas
+            </div>
+            <div v-for="pause in pauses" :key="pause.start.getTime()" class="">
               {{ pause.start | hourAndMinute }}
               <template v-if="pause.end">
-                <FaIcon class="mx-2" icon="long-arrow-alt-right" />
-                {{ pause.end | hourAndMinute }}
+                - {{ pause.end | hourAndMinute }}
               </template>
             </div>
           </div>
         </div>
-        <div class="flex items-center pt-2">
-          <FaIcon icon="stop-circle" class="mr-4" />
+        <div class="flex pt-2">
+          <FaIcon icon="stop-circle" class="mr-4 text-primary" />
           <div class="flex-1">
+            <div class="text-xl">
+              Hora de salida
+            </div>
             {{ end | hourAndMinute }}
           </div>
         </div>
       </div>
-      <div class="mt-4 text-2xl text-right">
-        <span class="mr-2">Total:</span>
-        {{ duration | duration }}
+      <div class="my-4 pt-4 text-xl border-t border-gray-600">
+        <span class="ml-12">Total</span>
+        <div class="text-3xl text-center text-primary">
+          {{ duration | duration }}
+        </div>
       </div>
     </div>
     <div>

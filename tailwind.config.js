@@ -1,8 +1,6 @@
 const { colors, fontFamily } = require('tailwindcss/defaultTheme')
 
 const {
-  teal: primary,
-  purple: secondary,
   gray: tertiary,
 } = colors
 
@@ -11,18 +9,18 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          lightest: primary['100'],
-          light: primary['300'],
-          default: primary['500'],
-          dark: primary['700'],
-          darkest: primary['900'],
+          lightest: '#cafbe3',
+          light: '#9af8ca',
+          default: '#6af6b1',
+          dark: '#39f397',
+          darkest: '#0eeb7e',
         },
         secondary: {
-          lightest: secondary['100'],
-          light: secondary['300'],
-          default: secondary['500'],
-          dark: secondary['700'],
-          darkest: secondary['900'],
+          lightest: '#e0aef8',
+          light: '#cf7ef5',
+          default: '#be51f2',
+          dark: '#ab1fee',
+          darkest: '#8f0fcc',
         },
         tertiary: {
           lightest: tertiary['100'],
