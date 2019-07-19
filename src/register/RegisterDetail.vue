@@ -1,6 +1,6 @@
 <template>
   <div class="h-full p-8">
-    <div class="text-4xl text-center text-primary pb-2 mb-2 border-b-1 border-white">
+    <div class="text-4xl text-center text-primary pb-2 mb-4 border-b border-primary">
       {{ dateObject | date }}
     </div>
     <div class="text-2xl">
@@ -29,6 +29,10 @@
         </div>
       </div>
     </div>
+    <div class="mt-4 text-2xl text-right">
+      <span class="mr-2">Total:</span>
+      {{ duration | duration }}
+    </div>
   </div>
 </template>
 
@@ -51,6 +55,7 @@ export default {
       dateObject: 'registerDetailDate',
       records: 'registerDetailSortedRecords',
       pauses: 'registerDetailPauses',
+      duration: 'registerDetailDuration',
     }),
     start () { return get(first(this.records), 'startTime') },
     end () { return get(last(this.records), 'endTime') },

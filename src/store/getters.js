@@ -34,6 +34,11 @@ export default {
         end: get(registerDetailSortedRecords, `${i + 1}.startTime`),
       }))
   },
+  registerDetailDuration (s, { registerDetailRecords }) {
+    return registerDetailRecords
+      .map(record => record.endTime.getTime() - record.startTime.getTime())
+      .reduce((total, recordDuration) => total + recordDuration, 0)
+  },
 
   todayState (state) {
     return state.today

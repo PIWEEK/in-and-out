@@ -5,5 +5,5 @@ export default function (value) {
   const minutes = Math.floor(remainder / 60)
   const remainder2 = remainder % 60
   const seconds = Math.floor(remainder2)
-  return `${hours}:${minutes}:${seconds}`
+  return `${hours}h ${minutes}m ${seconds}s`
 }
