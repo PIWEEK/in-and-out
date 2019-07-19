@@ -1,6 +1,7 @@
 import {
   completeRecording,
   createRecord,
+  getAllRecords,
   getTodayRecords,
   pauseRecording,
   resumeRecording,
@@ -11,6 +12,11 @@ export default {
   async changeLanguage ({ commit }, lang) {
     await loadLanguageAsync(lang)
     commit('setLanguage', lang)
+  },
+
+  async fetchUserRecords ({ commit }) {
+    const records = await getAllRecords()
+    commit('setRegisterRecords', records)
   },
 
   async fetchTodayStatus ({ commit }) {
