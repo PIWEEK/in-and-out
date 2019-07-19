@@ -1,4 +1,11 @@
 export default {
+  logInUser (state) {
+    state.user.isLogged = true
+  },
+  logOutUser (state) {
+    state.user.isLogged = false
+  },
+
   setLanguage (state, lang) {
     state.i18n.lang = lang
   },

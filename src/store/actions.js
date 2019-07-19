@@ -1,15 +1,25 @@
+import { login, logout } from '@/api/login'
 import {
   completeRecording,
   createRecord,
+  deleteAllRecords,
   getAllRecords,
   getTodayRecords,
   pauseRecording,
   resumeRecording,
-  deleteAllRecords,
 } from '@/api/record'
 import { loadLanguageAsync } from '@/setup/i18n'
 
 export default {
+  async login ({ commit }) {
+    await login()
+    commit('logInUser')
+  },
+  async logout ({ commit }) {
+    await logout()
+    commit('logOutUser')
+  },
+
   async changeLanguage ({ commit }, lang) {
     await loadLanguageAsync(lang)
     commit('setLanguage', lang)

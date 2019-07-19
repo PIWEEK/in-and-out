@@ -1,10 +1,7 @@
 <template>
   <div class="flex h-full p-8 flex-col">
     <div class="flex-1 items-center justify-center flex">
-      <h1 class="text-primary font-title text-6xl">
-        <span>In &</span>
-        <span class="text-secondary"> Out</span>
-      </h1>
+      <img src="/in-and-out.svg">
     </div>
     <div class="text-center">
       <p class="text-sm pb-10">
@@ -14,7 +11,7 @@
       <BaseButton
         kind="secondary"
         class="block w-full"
-        @click="login()"
+        @click="loginUser"
       >
         {{ $t('login.log-in') }}
       </BaseButton>
@@ -24,14 +21,15 @@
 
 <script>
 import router from '@/router'
-import { login } from '@/api/login'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
   methods: {
-    async login () {
-      await login()
-      router.push('/today')
+    ...mapActions(['login']),
+    async loginUser () {
+      await this.login()
+      router.push({ name: 'today' })
     },
   },
 }
