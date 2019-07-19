@@ -39,4 +39,19 @@ export default {
         end: get(todaySortedRecords, `${i + 1}.startTime`),
       }))
   },
+  todayTotal (s, { todaySortedRecords }) {
+    return todaySortedRecords
+      .filter((record) => !!record.endTime)
+      .reduce(
+        (acum, record) => acum + record.endTime.getTime() - record.startTime.getTime(),
+        0
+      )
+  },
+  startOfCurrentRecord (s, { todaySortedRecords }) {
+    const activeRecord = todaySortedRecords.find((record) => !record.endTime)
+    if (activeRecord) {
+      return activeRecord.startTime
+    }
+    return null
+  },
 }
