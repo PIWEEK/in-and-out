@@ -1,16 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './auth/Login'
+
 import { getCurrentUserUri } from '@/api/login'
+import Login from '@/auth/Login'
+import store from '@/store'
 
 Vue.use(Router)
 
 async function loginRequired (to, from, next) {
   const userUri = await getCurrentUserUri()
   if (userUri) {
+    store.commit('logInUser')
     next()
   } else {
-    next('/login')
+    store.commit('logOutUser')
+    next({ name: 'login' })
   }
 }
 
