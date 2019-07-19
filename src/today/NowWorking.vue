@@ -44,6 +44,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
+function formatDateParam (date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
 export default {
   name: 'NowWorking',
   data () {
@@ -101,6 +105,10 @@ export default {
       this.stopLoading = true
       try {
         await this.finishTodayRegister()
+        this.$router.replace({
+          name: 'register-detail',
+          params: { date: formatDateParam(this.startRecord.startTime) },
+        })
       } finally {
         this.stopLoading = false
       }

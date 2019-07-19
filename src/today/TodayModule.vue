@@ -13,13 +13,11 @@ import { mapActions, mapGetters } from 'vuex'
 
 import ReadyToWork from './ReadyToWork'
 import NowWorking from './NowWorking'
-import WorkDone from './WorkDone'
 
 const statusComponentMap = {
   ready: ReadyToWork,
   working: NowWorking,
   paused: NowWorking,
-  done: WorkDone,
 }
 
 function formatDateParam (date) {
@@ -31,7 +29,6 @@ export default {
   components: {
     ReadyToWork,
     NowWorking,
-    WorkDone,
   },
   data () {
     return {
