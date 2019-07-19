@@ -1,19 +1,24 @@
 <template>
-  <div class="flex flex-wrap border border-secondary rounded">
+  <div class="flex flex-wrap rounded">
     <div
       v-for="dateData in monthDatesData"
       :key="dateData.instance.toString()"
-      class="p-1 border border-secondary flex flex-col"
+      class="p-1 border border-tertiary flex flex-col"
       :class="{
         'cursor-pointer': !dateData.isFuture,
         [`w-1/${daysPerWeek}`]: daysPerWeek,
       }"
       @click="!dateData.isFuture && handleDateClick(dateData)"
     >
-      <div class="text-xs leading-none pb-1">
+      <div
+        class="text-xs leading-none pb-1"
+        :class="{
+          'text-primary': !dateData.isFuture,
+        }"
+      >
         {{ dateData.date }}
       </div>
-      <div class="self-end text-primary">
+      <div class="self-end text-secondary">
         <FaIcon
           class="block"
           :class="{ 'text-transparent': dateData.isFuture }"
