@@ -1,5 +1,6 @@
 {
   "login": {
+    "current-pod": "Current POD",
     "log-in": "Log in",
     "log-out": "Log out"
   },
