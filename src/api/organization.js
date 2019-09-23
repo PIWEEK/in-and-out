@@ -1,8 +1,11 @@
 import auth from 'solid-auth-client'
 import rdf from 'rdflib'
 
+import { uriToNode, loadNode, extractValue } from './common'
+
 const SCHEMA = rdf.Namespace('http://schema.org/')
 
+// TODO: ask the user the pod she wants to use
 const ORGS_URI = 'https://pod2.projects.kaleidos.net/public/organizations/'
 const ORG_NAME = 'Kaleidos'
 const ORG_URI = `${ORGS_URI}kaleidos.ttl`
@@ -14,16 +17,14 @@ export async function getCurrentOrgUri () {
 }
 
 export async function getCurrentOrg () {
-  const orgNode = rdf.sym(await getCurrentOrgUri())
+  const orgNode = uriToNode(await getCurrentOrgUri())
 
   try {
-    const org = rdf.graph()
-    const fetcher = new rdf.Fetcher(org)
-    await fetcher.load(orgNode.uri)
+    const orgGraph = await loadNode(orgNode)
 
     return {
       uri: orgNode.uri,
-      name: org.any(orgNode, SCHEMA('name')).value,
+      name: extractValue(orgGraph, orgNode, SCHEMA('name')),
     }
   } catch (ex) {
     if (ex.status === 404) {

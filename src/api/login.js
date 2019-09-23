@@ -1,6 +1,8 @@
 import auth from 'solid-auth-client'
 import rdf from 'rdflib'
 
+import { uriToNode, loadNode, extractValue } from './common'
+
 const VCARD = rdf.Namespace('http://www.w3.org/2006/vcard/ns#')
 
 export async function login () {
@@ -21,17 +23,14 @@ export async function getCurrentUserUri () {
 }
 
 export async function getCurrentUser () {
-  const userNode = rdf.sym(await getCurrentUserUri())
-
-  const user = rdf.graph()
-  const fetcher = new rdf.Fetcher(user)
-  await fetcher.load(userNode.uri)
+  const userNode = uriToNode(await getCurrentUserUri())
+  const userGraph = await loadNode(userNode)
 
   return { // TODO: be prepared for null values
     uri: userNode.uri,
-    fullName: user.any(userNode, VCARD('fn')).value,
-    organizationName: user.any(userNode, VCARD('organization-name')).value,
-    role: user.any(userNode, VCARD('role')).value,
+    fullName: extractValue(userGraph, userNode, VCARD('fn')),
+    organizationName: extractValue(userGraph, userNode, VCARD('organization-name')),
+    role: extractValue(userGraph, userNode, VCARD('role')),
   }
 }
 
