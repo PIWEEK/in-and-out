@@ -4,6 +4,8 @@
 
 Introduction to SOLID and basic concepts <http://rubenverborgh.github.io/WebFundamentals/semantic-web/>
 
+Introducing linked data and semantic web <http://www.linkeddatatools.com/semantic-web-basics>
+
 Solid developer manual <https://solid.inrupt.com/docs>
 
 Detailed explanation of SOLID protocols <https://github.com/solid/information/blob/master/documentation/solid-specification.md>
